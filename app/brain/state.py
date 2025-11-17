@@ -1,15 +1,19 @@
 # app/brain/state.py
 from collections import Counter
 from dataclasses import dataclass, field
-from typing import Dict, Optional
 
 @dataclass
-class TTLState:
-    counts: Counter = field(default_factory=Counter)  # hop_ip -> count
+class TtlState:
+    final: str | None = None
+    counts: Counter = field(default_factory=Counter)
     timeouts: int = 0
     attempts: int = 0
-    final: Optional[str] = None   # hop ip or "∅" or None if undecided
     confident: bool = False
+    # debug meta for reporting (optional)
+    base_cap: int = 0
+    dyn_cap: int = 0
+    pool_in: int = 0     # credits deposited at hop exit
+    pool_out: int = 0    # credits spent beyond base at this hop
 
 @dataclass
 class RunState:
@@ -17,10 +21,13 @@ class RunState:
     total_budget: int
     ttl: int = 1
     probes_used: int = 0
-    per_ttl: Dict[int, TTLState] = field(default_factory=dict)
+    stop_reason: str | None = None
     dest_reached: bool = False
-    stop_reason: Optional[str] = None
+    # NEW: global credit pool
+    pool: int = 0
+    # per-ttl book-keeping
+    per_ttl: dict = field(default_factory=dict)
 
     def __post_init__(self):
         for k in range(1, self.max_ttl + 1):
-            self.per_ttl[k] = TTLState()
+            self.per_ttl[k] = TtlState()

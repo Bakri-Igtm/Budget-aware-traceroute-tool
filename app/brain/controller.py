@@ -1,16 +1,10 @@
 # app/brain/controller.py
 import time
 from app.brain.state import RunState
-from app.brain.rules import confident_rule, dark_rule, should_stop_run
+from app.brain.rules import confident_rule, dark_rule, uncertain
 from typing import Optional
 
 class BudgetController:
-    """
-    Minimal budget-aware controller.
-    prober must implement probe_once(dest, ttl, flow_id) -> ProbeEvent (dict)
-    settings is a simple namespace or dataclass with attributes:
-      max_ttl, per_hop_budget, repeats_needed, total_budget, flow_ids (tuple), per_probe_delay_s (float)
-    """
     def __init__(self, prober, settings):
         self.prober = prober
         self.s = settings
@@ -19,90 +13,109 @@ class BudgetController:
         run = RunState(max_ttl=self.s.max_ttl, total_budget=self.s.total_budget)
         flow_ids = list(self.s.flow_ids) if getattr(self.s, "flow_ids", None) else [0]
 
-        while not should_stop_run(run):
+        while run.probes_used < run.total_budget and run.ttl <= run.max_ttl:
             ttl = run.ttl
-            if ttl > run.max_ttl:
-                break
             tstate = run.per_ttl[ttl]
 
-            # If this TTL already decided, move on
+            # already decided? advance
             if tstate.final is not None or tstate.confident:
                 run.ttl += 1
                 continue
 
-            # Choose a flow id round-robin (small peek to detect ECMP, can be static)
+            # --- compute dynamic cap with rollover credits ---
+            base_cap = self.s.per_hop_budget
+            extra_allow = min(run.pool, getattr(self.s, "rollover_cap_per_hop", 0))
+            dyn_cap = base_cap + extra_allow
+            dyn_cap = min(dyn_cap, getattr(self.s, "hard_per_hop_max", base_cap))
+
+            # only spend extras if this hop is uncertain
+            if not uncertain(tstate):
+                dyn_cap = base_cap
+
+            tstate.base_cap = base_cap
+            tstate.dyn_cap = dyn_cap
+
+            # choose a flow id (round-robin over a tiny set)
             chosen_flow = flow_ids[(tstate.attempts) % len(flow_ids)]
 
-            # Send one probe
+            # guard global budget
+            if run.probes_used >= run.total_budget:
+                run.stop_reason = "budget_exhausted"
+                break
+
+            # --- send one probe ---
             ev = self.prober.probe_once(dest, ttl, flow_id=chosen_flow)
             run.probes_used += 1
             tstate.attempts += 1
 
-            # Interpret event (ev should be the ProbeEvent dict)
             status = ev.get("status")
             hop_ip = ev.get("hop_ip")
 
-            # --- Hard stop if we see the destination IP (robust guard) ---
-            if hop_ip and hop_ip == dest:
-                tstate.counts[hop_ip] += 1
-                tstate.final = hop_ip
-                tstate.confident = True
-                run.dest_reached = True
-                run.stop_reason = "dest_reached"
-                break
-
-
             if status in ("ttl_exceeded", "dest_reached") and hop_ip:
                 tstate.counts[hop_ip] += 1
-                # If destination style reply -> mark dest and stop later
-                if status == "dest_reached":
+                if status == "dest_reached" or hop_ip == dest:
+                    # destination confirmed: lock and stop run
                     tstate.final = hop_ip
                     tstate.confident = True
                     run.dest_reached = True
                     run.stop_reason = "dest_reached"
                     break
             else:
-                # treat as timeout/unreach: increment timeouts
                 tstate.timeouts += 1
 
-            # Check per-hop decisions:
+            # per-hop decisioning
             if confident_rule(tstate.counts, self.s.repeats_needed):
-                # pick the top IP as final
                 top_ip = max(tstate.counts, key=lambda k: tstate.counts[k])
                 tstate.final = top_ip
                 tstate.confident = True
-            elif dark_rule(tstate.timeouts, tstate.attempts, self.s.per_hop_budget):
-                tstate.final = "∅"  # dark hop
+            elif dark_rule(tstate.timeouts, tstate.attempts, dyn_cap):
+                tstate.final = "∅"
 
-            # Move on if decided or budget used up for this hop
-            if tstate.final is not None or tstate.attempts >= self.s.per_hop_budget:
+            # move on if decided or hit cap
+            if tstate.final is not None or tstate.attempts >= dyn_cap:
+                used = tstate.attempts
+
+                # deposit if we used less than base
+                if used < base_cap:
+                    deposit = base_cap - used
+                    run.pool = min(run.pool + deposit,
+                                   getattr(self.s, "rollover_pool_max", 10))
+                    tstate.pool_in = deposit
+                else:
+                    # withdraw extras from pool if used > base
+                    extra_used = max(0, used - base_cap)
+                    if extra_used > 0:
+                        run.pool = max(0, run.pool - extra_used)
+                        tstate.pool_out = extra_used
+
                 run.ttl += 1
             else:
-                # optionally small pause between probes to same hop
                 time.sleep(getattr(self.s, "per_probe_delay_s", 0.03))
 
-        # Build summary result
-        # Build summary result
+        # summary
         path = {}
         for k in range(1, run.max_ttl + 1):
-            final = run.per_ttl[k].final
-            if final is None:
-                continue
-            path[k] = final
-            if final == dest:
-                break
+            if run.per_ttl[k].final is not None:
+                path[k] = run.per_ttl[k].final
 
-
-        summary = {
+        return {
             "target": dest,
             "path": path,
             "probes_used": run.probes_used,
             "stop_reason": run.stop_reason or ("max_ttl" if run.ttl > run.max_ttl else "unknown"),
-            "per_ttl": {k: {
-                "final": run.per_ttl[k].final,
-                "counts": dict(run.per_ttl[k].counts),
-                "timeouts": run.per_ttl[k].timeouts,
-                "attempts": run.per_ttl[k].attempts
-            } for k in range(1, run.max_ttl + 1)}
+            "per_ttl": {
+                k: {
+                    "final": run.per_ttl[k].final,
+                    "counts": dict(run.per_ttl[k].counts),
+                    "timeouts": run.per_ttl[k].timeouts,
+                    "attempts": run.per_ttl[k].attempts,
+                    # debug meta
+                    "base_cap": run.per_ttl[k].base_cap,
+                    "dyn_cap": run.per_ttl[k].dyn_cap,
+                    "pool_in": run.per_ttl[k].pool_in,
+                    "pool_out": run.per_ttl[k].pool_out,
+                } for k in range(1, run.max_ttl + 1)
+            },
+            # optional: show remaining pool
+            "pool_remaining": run.pool,
         }
-        return summary

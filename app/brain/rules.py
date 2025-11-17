@@ -1,37 +1,29 @@
 # app/brain/rules.py
-from typing import Dict
 from collections import Counter
 
-def top_count(counts: Counter) -> int:
-    return max(counts.values()) if counts else 0
-
 def confident_rule(counts: Counter, repeats_needed: int) -> bool:
-    """
-    Return True if any hop ip has been seen at least repeats_needed times.
-    """
-    return top_count(counts) >= repeats_needed
-
-def dark_rule(timeouts: int, attempts: int, per_hop_budget: int) -> bool:
-    """
-    Return True if we consider the hop dark (non-responsive).
-    Simple rule: attempts >= per_hop_budget and timeouts >= (per_hop_budget - 1)
-    (i.e., almost all attempts timed out).
-    """
-    if attempts < per_hop_budget:
+    if not counts: 
         return False
-    return timeouts >= max(1, per_hop_budget - 1)
+    top = max(counts.values())
+    return top >= repeats_needed
 
-def should_stop_run(run_state) -> bool:
+def dark_rule(timeouts: int, attempts: int, cap: int) -> bool:
     """
-    Stop if destination reached, total budget used, or exceeded TTL.
+    Decide the hop is 'dark' if we're near/at cap and most attempts are silence.
+    Slightly aggressive: if attempts >= min(3, cap) and timeouts >= attempts - 1
     """
-    if run_state.dest_reached:
-        run_state.stop_reason = "dest_reached"
+    if attempts >= min(3, cap) and timeouts >= attempts - 1:
         return True
-    if run_state.probes_used >= run_state.total_budget:
-        run_state.stop_reason = "budget_exhausted"
-        return True
-    if run_state.ttl > run_state.max_ttl:
-        run_state.stop_reason = "max_ttl"
+    if attempts >= cap:
         return True
     return False
+
+def uncertain(tstate) -> bool:
+    """
+    True if this hop looks unstable and may need extra probes:
+    - at least one timeout, OR
+    - multiple distinct IPs seen and not yet confident
+    """
+    multi_ip = len(tstate.counts) >= 2
+    some_timeouts = tstate.timeouts >= 1
+    return some_timeouts or multi_ip
