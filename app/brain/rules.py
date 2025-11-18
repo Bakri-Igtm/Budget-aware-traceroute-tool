@@ -20,10 +20,10 @@ def dark_rule(timeouts: int, attempts: int, cap: int) -> bool:
 
 def uncertain(tstate) -> bool:
     """
-    True if this hop looks unstable and may need extra probes:
-    - at least one timeout, OR
-    - multiple distinct IPs seen and not yet confident
+    True if this hop looks genuinely unstable and might deserve extra probes:
+    - at least 2 timeouts (lots of silence), OR
+    - 3 or more distinct IPs (heavy ECMP / flapping)
     """
-    multi_ip = len(tstate.counts) >= 2
-    some_timeouts = tstate.timeouts >= 1
-    return some_timeouts or multi_ip
+    many_timeouts = tstate.timeouts >= 2
+    heavy_ecmp = len(tstate.counts) >= 3
+    return many_timeouts or heavy_ecmp
