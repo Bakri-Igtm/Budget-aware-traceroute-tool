@@ -28,12 +28,12 @@ def run_command(cmd):
 def compare(target):
     # Regular trace
     # python3 -m tools.regular_trace <target> 3 icmp-paris
-    reg_cmd = f"{sys.executable} -m tools.regular_trace {target} 3 icmp-paris"
+    reg_cmd = f"{sys.executable} -m tools.regular_trace {target} 3 udp-paris"
     reg_data = run_command(reg_cmd)
 
     # Budget trace
     # python3 -m tools.run_budget <target> --method icmp-paris --per-hop-budget 3 --repeats-needed 2 --total-budget 65
-    bud_cmd = f"{sys.executable} -m tools.run_budget {target} --method icmp-paris --per-hop-budget 3 --repeats-needed 2 --total-budget 65"
+    bud_cmd = f"{sys.executable} -m tools.run_budget {target} --method udp-paris --per-hop-budget 3 --repeats-needed 2 --total-budget 65"
     bud_data = run_command(bud_cmd)
 
     if not reg_data or not bud_data:
