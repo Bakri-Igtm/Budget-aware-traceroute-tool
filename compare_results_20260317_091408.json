@@ -1,0 +1,524 @@
+{
+  "timestamp": "2026-03-17T09:14:08.703109",
+  "total_attempted": 85,
+  "excluded_count": 0,
+  "valid_count": 85,
+  "summary": {
+    "avg_accuracy": 97.83,
+    "total_reg_probes": 3027,
+    "total_bud_probes": 2169,
+    "probe_reduction_pct": 28.34
+  },
+  "results": [
+    {
+      "target": "8.8.8.8",
+      "accuracy": 100.0,
+      "reg_probes": 30,
+      "bud_probes": 19
+    },
+    {
+      "target": "8.8.4.4",
+      "accuracy": 100.0,
+      "reg_probes": 30,
+      "bud_probes": 19
+    },
+    {
+      "target": "1.1.1.1",
+      "accuracy": 100.0,
+      "reg_probes": 27,
+      "bud_probes": 17
+    },
+    {
+      "target": "1.0.0.1",
+      "accuracy": 100.0,
+      "reg_probes": 27,
+      "bud_probes": 17
+    },
+    {
+      "target": "9.9.9.9",
+      "accuracy": 100.0,
+      "reg_probes": 42,
+      "bud_probes": 31
+    },
+    {
+      "target": "149.112.112.112",
+      "accuracy": 90.9090909090909,
+      "reg_probes": 42,
+      "bud_probes": 31
+    },
+    {
+      "target": "208.67.222.222",
+      "accuracy": 100.0,
+      "reg_probes": 21,
+      "bud_probes": 14
+    },
+    {
+      "target": "208.67.220.220",
+      "accuracy": 100.0,
+      "reg_probes": 24,
+      "bud_probes": 15
+    },
+    {
+      "target": "4.2.2.1",
+      "accuracy": 100.0,
+      "reg_probes": 33,
+      "bud_probes": 24
+    },
+    {
+      "target": "4.2.2.2",
+      "accuracy": 90.0,
+      "reg_probes": 33,
+      "bud_probes": 23
+    },
+    {
+      "target": "142.250.190.46",
+      "accuracy": 100.0,
+      "reg_probes": 18,
+      "bud_probes": 12
+    },
+    {
+      "target": "142.250.191.206",
+      "accuracy": 100.0,
+      "reg_probes": 24,
+      "bud_probes": 16
+    },
+    {
+      "target": "172.217.164.110",
+      "accuracy": 100.0,
+      "reg_probes": 24,
+      "bud_probes": 16
+    },
+    {
+      "target": "142.250.184.99",
+      "accuracy": 100.0,
+      "reg_probes": 60,
+      "bud_probes": 39
+    },
+    {
+      "target": "157.240.229.35",
+      "accuracy": 100.0,
+      "reg_probes": 36,
+      "bud_probes": 26
+    },
+    {
+      "target": "157.240.195.174",
+      "accuracy": 100.0,
+      "reg_probes": 36,
+      "bud_probes": 25
+    },
+    {
+      "target": "31.13.71.36",
+      "accuracy": 100.0,
+      "reg_probes": 48,
+      "bud_probes": 34
+    },
+    {
+      "target": "104.244.42.1",
+      "accuracy": 100.0,
+      "reg_probes": 51,
+      "bud_probes": 40
+    },
+    {
+      "target": "104.244.42.65",
+      "accuracy": 100.0,
+      "reg_probes": 51,
+      "bud_probes": 41
+    },
+    {
+      "target": "208.80.154.224",
+      "accuracy": 100.0,
+      "reg_probes": 33,
+      "bud_probes": 22
+    },
+    {
+      "target": "98.137.11.163",
+      "accuracy": 100.0,
+      "reg_probes": 42,
+      "bud_probes": 28
+    },
+    {
+      "target": "74.6.231.20",
+      "accuracy": 100.0,
+      "reg_probes": 39,
+      "bud_probes": 26
+    },
+    {
+      "target": "205.251.242.103",
+      "accuracy": 100.0,
+      "reg_probes": 18,
+      "bud_probes": 12
+    },
+    {
+      "target": "54.239.28.85",
+      "accuracy": 100.0,
+      "reg_probes": 18,
+      "bud_probes": 12
+    },
+    {
+      "target": "52.94.233.129",
+      "accuracy": 100.0,
+      "reg_probes": 18,
+      "bud_probes": 12
+    },
+    {
+      "target": "52.21.160.129",
+      "accuracy": 100.0,
+      "reg_probes": 18,
+      "bud_probes": 12
+    },
+    {
+      "target": "54.237.226.164",
+      "accuracy": 100.0,
+      "reg_probes": 18,
+      "bud_probes": 12
+    },
+    {
+      "target": "108.174.10.10",
+      "accuracy": 100.0,
+      "reg_probes": 39,
+      "bud_probes": 28
+    },
+    {
+      "target": "20.112.250.133",
+      "accuracy": 73.33333333333333,
+      "reg_probes": 63,
+      "bud_probes": 49
+    },
+    {
+      "target": "13.107.21.200",
+      "accuracy": 100.0,
+      "reg_probes": 48,
+      "bud_probes": 36
+    },
+    {
+      "target": "17.253.144.10",
+      "accuracy": 100.0,
+      "reg_probes": 24,
+      "bud_probes": 15
+    },
+    {
+      "target": "17.253.144.26",
+      "accuracy": 100.0,
+      "reg_probes": 18,
+      "bud_probes": 12
+    },
+    {
+      "target": "151.101.2.167",
+      "accuracy": 100.0,
+      "reg_probes": 27,
+      "bud_probes": 18
+    },
+    {
+      "target": "151.101.66.167",
+      "accuracy": 100.0,
+      "reg_probes": 27,
+      "bud_probes": 17
+    },
+    {
+      "target": "151.101.1.140",
+      "accuracy": 100.0,
+      "reg_probes": 27,
+      "bud_probes": 18
+    },
+    {
+      "target": "151.101.65.140",
+      "accuracy": 100.0,
+      "reg_probes": 27,
+      "bud_probes": 19
+    },
+    {
+      "target": "140.82.112.4",
+      "accuracy": 88.88888888888889,
+      "reg_probes": 45,
+      "bud_probes": 36
+    },
+    {
+      "target": "140.82.113.4",
+      "accuracy": 100.0,
+      "reg_probes": 45,
+      "bud_probes": 36
+    },
+    {
+      "target": "151.101.1.69",
+      "accuracy": 100.0,
+      "reg_probes": 27,
+      "bud_probes": 18
+    },
+    {
+      "target": "151.101.65.69",
+      "accuracy": 100.0,
+      "reg_probes": 27,
+      "bud_probes": 18
+    },
+    {
+      "target": "8.26.56.26",
+      "accuracy": 100.0,
+      "reg_probes": 42,
+      "bud_probes": 31
+    },
+    {
+      "target": "8.20.247.20",
+      "accuracy": 100.0,
+      "reg_probes": 42,
+      "bud_probes": 31
+    },
+    {
+      "target": "64.6.64.6",
+      "accuracy": 100.0,
+      "reg_probes": 27,
+      "bud_probes": 17
+    },
+    {
+      "target": "64.6.65.6",
+      "accuracy": 100.0,
+      "reg_probes": 36,
+      "bud_probes": 25
+    },
+    {
+      "target": "156.154.70.1",
+      "accuracy": 100.0,
+      "reg_probes": 27,
+      "bud_probes": 17
+    },
+    {
+      "target": "156.154.71.1",
+      "accuracy": 100.0,
+      "reg_probes": 36,
+      "bud_probes": 24
+    },
+    {
+      "target": "185.228.168.9",
+      "accuracy": 100.0,
+      "reg_probes": 39,
+      "bud_probes": 28
+    },
+    {
+      "target": "185.228.169.9",
+      "accuracy": 100.0,
+      "reg_probes": 39,
+      "bud_probes": 28
+    },
+    {
+      "target": "94.140.14.14",
+      "accuracy": 100.0,
+      "reg_probes": 39,
+      "bud_probes": 28
+    },
+    {
+      "target": "94.140.15.15",
+      "accuracy": 100.0,
+      "reg_probes": 39,
+      "bud_probes": 28
+    },
+    {
+      "target": "77.88.8.8",
+      "accuracy": 100.0,
+      "reg_probes": 51,
+      "bud_probes": 37
+    },
+    {
+      "target": "77.88.8.1",
+      "accuracy": 100.0,
+      "reg_probes": 51,
+      "bud_probes": 37
+    },
+    {
+      "target": "216.58.214.206",
+      "accuracy": 100.0,
+      "reg_probes": 18,
+      "bud_probes": 12
+    },
+    {
+      "target": "172.217.14.99",
+      "accuracy": 100.0,
+      "reg_probes": 42,
+      "bud_probes": 28
+    },
+    {
+      "target": "142.251.33.78",
+      "accuracy": 100.0,
+      "reg_probes": 24,
+      "bud_probes": 16
+    },
+    {
+      "target": "142.251.40.174",
+      "accuracy": 100.0,
+      "reg_probes": 24,
+      "bud_probes": 16
+    },
+    {
+      "target": "216.239.32.21",
+      "accuracy": 100.0,
+      "reg_probes": 30,
+      "bud_probes": 19
+    },
+    {
+      "target": "185.60.216.35",
+      "accuracy": 100.0,
+      "reg_probes": 36,
+      "bud_probes": 25
+    },
+    {
+      "target": "157.240.1.35",
+      "accuracy": 100.0,
+      "reg_probes": 66,
+      "bud_probes": 50
+    },
+    {
+      "target": "23.192.228.80",
+      "accuracy": 92.85714285714286,
+      "reg_probes": 57,
+      "bud_probes": 43
+    },
+    {
+      "target": "23.45.229.117",
+      "accuracy": 100.0,
+      "reg_probes": 42,
+      "bud_probes": 28
+    },
+    {
+      "target": "23.4.43.67",
+      "accuracy": 92.3076923076923,
+      "reg_probes": 57,
+      "bud_probes": 44
+    },
+    {
+      "target": "104.16.132.229",
+      "accuracy": 100.0,
+      "reg_probes": 27,
+      "bud_probes": 17
+    },
+    {
+      "target": "104.18.32.7",
+      "accuracy": 100.0,
+      "reg_probes": 27,
+      "bud_probes": 17
+    },
+    {
+      "target": "151.101.129.69",
+      "accuracy": 100.0,
+      "reg_probes": 27,
+      "bud_probes": 18
+    },
+    {
+      "target": "151.101.193.140",
+      "accuracy": 100.0,
+      "reg_probes": 27,
+      "bud_probes": 20
+    },
+    {
+      "target": "199.232.68.133",
+      "accuracy": 100.0,
+      "reg_probes": 39,
+      "bud_probes": 27
+    },
+    {
+      "target": "152.199.19.161",
+      "accuracy": 100.0,
+      "reg_probes": 27,
+      "bud_probes": 18
+    },
+    {
+      "target": "93.184.216.34",
+      "accuracy": 100.0,
+      "reg_probes": 21,
+      "bud_probes": 15
+    },
+    {
+      "target": "52.85.151.49",
+      "accuracy": 100.0,
+      "reg_probes": 33,
+      "bud_probes": 25
+    },
+    {
+      "target": "13.227.219.76",
+      "accuracy": 100.0,
+      "reg_probes": 21,
+      "bud_probes": 15
+    },
+    {
+      "target": "99.86.230.81",
+      "accuracy": 100.0,
+      "reg_probes": 21,
+      "bud_probes": 15
+    },
+    {
+      "target": "3.33.152.147",
+      "accuracy": 100.0,
+      "reg_probes": 45,
+      "bud_probes": 37
+    },
+    {
+      "target": "15.197.142.173",
+      "accuracy": 100.0,
+      "reg_probes": 45,
+      "bud_probes": 37
+    },
+    {
+      "target": "35.186.224.25",
+      "accuracy": 100.0,
+      "reg_probes": 24,
+      "bud_probes": 15
+    },
+    {
+      "target": "34.107.243.93",
+      "accuracy": 100.0,
+      "reg_probes": 24,
+      "bud_probes": 15
+    },
+    {
+      "target": "35.190.247.0",
+      "accuracy": 100.0,
+      "reg_probes": 21,
+      "bud_probes": 13
+    },
+    {
+      "target": "204.79.197.200",
+      "accuracy": 90.9090909090909,
+      "reg_probes": 51,
+      "bud_probes": 40
+    },
+    {
+      "target": "13.107.42.14",
+      "accuracy": 90.9090909090909,
+      "reg_probes": 48,
+      "bud_probes": 37
+    },
+    {
+      "target": "40.90.4.1",
+      "accuracy": 85.71428571428571,
+      "reg_probes": 48,
+      "bud_probes": 36
+    },
+    {
+      "target": "20.53.203.50",
+      "accuracy": 88.23529411764706,
+      "reg_probes": 69,
+      "bud_probes": 53
+    },
+    {
+      "target": "20.190.151.70",
+      "accuracy": 91.66666666666666,
+      "reg_probes": 57,
+      "bud_probes": 46
+    },
+    {
+      "target": "20.190.151.132",
+      "accuracy": 75.0,
+      "reg_probes": 57,
+      "bud_probes": 47
+    },
+    {
+      "target": "162.125.1.1",
+      "accuracy": 86.66666666666667,
+      "reg_probes": 51,
+      "bud_probes": 38
+    },
+    {
+      "target": "162.125.66.1",
+      "accuracy": 77.77777777777779,
+      "reg_probes": 48,
+      "bud_probes": 41
+    }
+  ]
+}
